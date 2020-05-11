@@ -8,8 +8,11 @@ WORKDIR /usr/src/node-docker
 COPY package.json /usr/src/node-docker
 RUN npm install
 
+
 # Copy/bundle app source files
 COPY . /usr/src/node-docker
+
+#RUN node seeder -i
 
 # Build argument
 ARG NODE_VERSION=14.2.0
@@ -17,4 +20,4 @@ ARG NODE_VERSION=14.2.0
 # Environment
 ENV NODE_VERSION=${NODE_VERSION}
 
-# CMD ["/bin/bash"]
+CMD ["/bin/bash"]

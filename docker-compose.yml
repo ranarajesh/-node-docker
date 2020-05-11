@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 services:
   # backend api
   node-docker-api:
@@ -15,10 +15,29 @@ services:
       REDIS_URI: redis://redis:6379
     links:
       - redis
+    depends_on:
+      - seeder
 
+  # Redis Seeder
+  seeder:
+    build: .
+    command: node seeder -i
+    environment:
+      REDIS_URI: redis://redis:6379
+    links:
+      - redis
+    depends_on:
+      - redis
   # Redis services
   redis:
     container_name: redis
     image: redis
+    #command: 'node seeder -i'
+    #command: redis-server --appendonly yes
+    #volumes:
+    #  - ./redis/dump.rdb:/data
+    #build: ./redis
+    #command: redis-cli set station 11112222333344455
+    #command: ['redis-cli', 'set', 'test', 'redis testing']
     ports:
       - '6379:6379'
